@@ -1,0 +1,127 @@
+{
+  "_comment": "Defense detail beneath Treasury's 'Department of Defense (Military)' node. Accounts are found in USAspending and sorted into Treasury's appropriation titles by the rules below; budget exhibits (P-1, R-1, O-1, M-1, C-1, RF-1) supply the line items.",
+  "usaspending_agency": "097",
+  "dod_node": "Department of Defense (Military)",
+  "services": {
+    "_comment": "USAspending account prefix (Treasury agency code) -> service node name in the Treasury tree",
+    "021": "Army",
+    "017": "Navy & Marine Corps",
+    "057": "Air Force & Space Force",
+    "097": "Defense-wide Agencies"
+  },
+  "exhibit_suffix": {
+    "_comment": "Budget exhibit account codes end in a letter for the department; maps it to the Treasury agency code. Accounts not found there are looked up under 097 (DoD-wide).",
+    "A": "021",
+    "N": "017",
+    "F": "057",
+    "D": "097"
+  },
+  "title_rules": [
+    {
+      "title": "Family Housing",
+      "any": [
+        "Family Housing"
+      ]
+    },
+    {
+      "title": "Military Construction",
+      "any": [
+        "Military Construction",
+        "Base Closure",
+        "Base Realignment",
+        "Security Investment Program"
+      ]
+    },
+    {
+      "title": "Military Personnel",
+      "any": [
+        "Military Personnel",
+        "Reserve Personnel",
+        "National Guard Personnel",
+        "Medicare-Eligible Retiree Health Fund Contribution"
+      ]
+    },
+    {
+      "title": "Research, Development, Test, and Evaluation",
+      "any": [
+        "Research, Development",
+        "Research and Development",
+        "Golden Dome",
+        "Operational Test and Evaluation",
+        "Rapid Prototyping"
+      ]
+    },
+    {
+      "title": "Procurement",
+      "any": [
+        "Procurement",
+        "Shipbuilding",
+        "Sea-Based Deterrence",
+        "Maritime Industrial Base",
+        "National Guard and Reserve Equipment",
+        "Defense Production Act",
+        "Chemical Agents and Munitions Destruction"
+      ]
+    },
+    {
+      "title": "Revolving and Management Funds",
+      "any": [
+        "Working Capital Fund",
+        "Stockpile Transaction Fund"
+      ]
+    },
+    {
+      "title": "Operation and Maintenance",
+      "any": [
+        "Operation and Maintenance",
+        "Environmental Restoration",
+        "Drug Interdiction",
+        "Inspector General",
+        "Combat and Operational Medicine",
+        "Defense Health",
+        "Cooperative Threat Reduction",
+        "Overseas Humanitarian",
+        "Court of Appeals",
+        "Counter-Islamic State",
+        "Acquisition Workforce",
+        "Ukraine Security Assistance",
+        "Afghanistan Security Forces",
+        "Counter-ISIS",
+        "Burden Sharing",
+        "Relocation to Guam",
+        "Host Nation Support"
+      ]
+    }
+  ],
+  "account_names": {
+    "_comment": "Optional display names; otherwise the USAspending name is used.",
+    "057-3600": "RDT&E, Air Force",
+    "057-3620": "RDT&E, Space Force",
+    "017-1319": "RDT&E, Navy",
+    "021-2040": "RDT&E, Army",
+    "097-0400": "RDT&E, Defense-Wide",
+    "057-3022": "Procurement, Space Force",
+    "057-3021": "Space Procurement, Air Force (legacy)",
+    "021-2033": "Weapons & Tracked Combat Vehicles, Army",
+    "017-1612": "National Sea-Based Deterrence Fund",
+    "017-1508": "Procurement of Ammunition, Navy & Marine Corps",
+    "097-0130": "Defense Health Program",
+    "097-3007": "Golden Dome for America Fund"
+  },
+  "ba_aliases": {
+    "_comment": "USAspending program-activity name -> exhibit budget-activity title where they differ (both normalized: upper case, punctuation removed). Prefix with 'account|' to limit an alias to one account.",
+    "SPACE PROCUREMENT": "SPACE PROCUREMENT SF",
+    "SPARE AND REPAIR PARTS": "SPARES AND REPAIR PARTS",
+    "017-1613|UNKNOWN": "INDUSTRIAL BASE ACTIVITIES",
+    "017-1612|SEA BASED DETERRENCE": "FLEET BALLISTIC MISSILE SHIPS",
+    "PLANNING": "DESIGN",
+    "PLANNING AND DESIGN": "DESIGN",
+    "CONSTRUCTION OF NEW HOUSING": "NEW CONSTRUCTION"
+  },
+  "group_min_items": 12,
+  "exhibit_only_titles": [
+    "Revolving and Management Funds"
+  ],
+  "_scaling_comment": "If a title's scale factor exceeds max_scale, only the reporting lag (12 / months reported) is applied and the rest of Treasury's total is shown as a separate 'not itemized' box.",
+  "max_scale": 1.2
+}

@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>About Federal Budget Explorer</title>
+<meta name="description" content="Sources, methods and limitations behind the Federal Budget Explorer.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700;900&family=Public+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1>About Federal Budget Explorer</h1>
+      <p class="sub">Where the numbers come from, how they are put together, and what they can and cannot tell you.</p>
+    </div>
+    <div class="toplinks"><a href="./">← Back to the explorer</a></div>
+  </header>
+
+  <main class="prose">
+    <p>Federal Budget Explorer shows where federal money goes and where it comes from, using what the government actually collected and spent rather than what was proposed. You can drill from the whole budget down to individual accounts, and for the Defense Department down to individual programs and construction projects. A separate map compares what each state pays in federal taxes with what it receives in federal spending.</p>
+
+    <h2>Sources</h2>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Data</th><th>Source</th><th>Updated</th></tr></thead>
+      <tbody>
+        <tr><td>Spending and revenue totals, by agency, account, budget function and tax</td><td>U.S. Treasury, <a href="https://fiscaldata.treasury.gov/datasets/monthly-treasury-statement/">Monthly Treasury Statement</a>, final September edition (Tables 4, 5 and 9)</td><td>Each October, after the fiscal year ends</td></tr>
+        <tr><td>Defense spending by account, budget activity and year of appropriation</td><td><a href="https://www.usaspending.gov/federal_account">USAspending.gov</a> federal account data (agency-reported outlays)</td><td>Monthly, about a month after each month ends</td></tr>
+        <tr><td>Defense programs, pay categories, O&amp;M activities and construction projects</td><td>DoD Comptroller budget exhibits (P-1, P-1R, R-1, O-1, M-1, C-1, RF-1), <a href="https://comptroller.war.gov/">comptroller.war.gov</a></td><td>Each spring, with the President's budget request</td></tr>
+        <tr><td>Federal taxes paid and spending received, by state</td><td>Office of the New York State Comptroller, <a href="https://www.osc.ny.gov/files/reports/pdf/balance-of-payments-ffy-2024.pdf">New York's Balance of Payments in the Federal Budget</a>, and its <a href="https://www.osc.ny.gov/files/reports/excel/fedbudgetfy2024data.xlsx">data workbook</a></td><td>Each fall, covering the fiscal year two years earlier</td></tr>
+        <tr><td>State boundaries</td><td><a href="https://github.com/topojson/us-atlas">us-atlas</a>, derived from U.S. Census Bureau cartographic boundaries</td><td>Static</td></tr>
+      </tbody>
+    </table></div>
+
+    <h2>How spending is counted</h2>
+    <h3>Outlays, not budget requests</h3>
+    <p>Totals are <strong>outlays</strong>: money actually paid out during the fiscal year (October 1 to September 30). This is different from <strong>budget authority</strong>, the amount Congress allows agencies to commit, which is often spent over several years. Every spending total reconciles to Treasury's published figure to within $1 million.</p>
+
+    <h3>Box sizes and the official totals</h3>
+    <p>Boxes show money paid out to the public. Two kinds of entries are kept out of the boxes, but they are listed in the side panel and included in each official total:</p>
+    <ul>
+      <li><strong>Offsetting receipts</strong>: money the government collects but books as negative spending rather than revenue. Examples are Medicare premiums, student-loan collections and foreign governments' payments for U.S. weapons.</li>
+      <li><strong>Intragovernmental transfers</strong>: payments from one federal account to another, such as general-fund payments into the Medicare and military retirement trust funds, or interest the Treasury pays on bonds its own trust funds hold. Drawing both sides would count the same dollar twice. The rules are listed in <code>pipeline/config.json</code>.</li>
+    </ul>
+    <p>On the revenue side, boxes show gross collections and the panel subtracts refunds. That is how FY 2026 customs duties appear as $318 billion collected and $145 billion refunded after the Supreme Court's tariff ruling.</p>
+
+    <h3>Groupings</h3>
+    <p>"Agency" follows Treasury's organization by department and bureau. Treasury publishes the Defense Department by appropriation title, then by service; the explorer regroups it by service first. "Purpose" uses budget functions, which group spending by what it is for regardless of agency. Treasury publishes functions only one level deep.</p>
+
+    <h2>Defense detail</h2>
+    <p>Below each service's appropriation titles (personnel, operations and maintenance, procurement, research and development, construction, family housing and working capital funds), the explorer combines two kinds of data. The panel says which one you are looking at.</p>
+    <ol>
+      <li><strong>Accounts and budget activities: actual spending.</strong> USAspending reports each account's outlays by budget activity. Its figures lag Treasury by a month or two and include work done for other customers that is later paid back. The explorer removes that reimbursable work and scales the rest to Treasury's full-year total for the title. The panel shows the scaling factor; with eleven of twelve months reported it is about 1.06 to 1.12.</li>
+      <li><strong>Programs and projects: funding approved.</strong> Below the budget activity, the DoD budget exhibits are the only source, and they report <em>funding</em> (budget authority), not spending. Programs are sized by what Congress enacted for the fiscal year, shown with the prior-year actual and the next-year request. An aircraft funded this year is paid for over several years as it is built, so these amounts do not add up to the spending above them.</li>
+    </ol>
+    <p>Each account also shows which years' appropriations its spending came from. For shipbuilding, only about 10% of FY 2026 spending came from FY 2026 money.</p>
+    <ul>
+      <li><strong>Classified programs</strong> appear in the exhibits as single totals and cannot be broken down.</li>
+      <li><strong>Not itemized in public account data.</strong> Where USAspending's account detail covers much less than Treasury's total for a title, the explorer does not spread the difference across visible accounts. It shows the remainder as its own box. In FY 2026 this is about $12 billion of Defense-wide operations and maintenance, largely intelligence activity.</li>
+      <li><strong>Working capital funds</strong> buy and resell continuously, so their gross outlays say little about their cost. They are shown with their appropriations from the RF-1 exhibit instead.</li>
+      <li><strong>Guard and Reserve.</strong> National Guard and Reserve equipment amounts (P-1R) are portions of procurement lines already counted, so they appear as notes rather than separate boxes.</li>
+      <li><strong>Construction projects</strong> are grouped by state or country. Projects are usually funded once, so most show no prior-year or request amount.</li>
+      <li><strong>Accounts placed by rule.</strong> USAspending does not say where the Golden Dome for America Fund sits within Treasury's titles. The explorer places it under Defense-wide research and development, the only placement where the totals reconcile.</li>
+    </ul>
+
+    <h2>State figures</h2>
+    <p>The state map uses the New York State Comptroller's annual analysis, which assigns federal taxes and federal spending to the 50 states and D.C. using IRS, Census, agency and USAspending data. Its method is described in the Comptroller's earlier reports. About 97% of federal revenue and 86% of outlays can be assigned to a state. The main exclusions are interest on the debt, customs duties, international spending and spending in U.S. territories.</p>
+    <ul>
+      <li><strong>Why most states look like net receivers.</strong> The government borrows to cover its deficit, so spending assigned to states exceeds taxes assigned to them by about $1 trillion. The <strong>deficit-adjusted</strong> view multiplies every state's spending by the same factor (taxes ÷ spending nationally, 82.4% for FY 2024), so national totals balance and each state's position is relative to an even split.</li>
+      <li><strong>Lag.</strong> State figures run about two years behind the spending figures, because the analysis takes that long to assemble.</li>
+      <li><strong>D.C.</strong> is shown as a dot and left out of the color scale and rankings. Federal employment there would otherwise compress every other state into one color.</li>
+      <li><strong>Data checks.</strong> The explorer's build checks every state row against the Comptroller's published balance and population. In the FY 2024 workbook those checks found two sheets with misaligned rows. One affects the civilian/military split of federal wages, which is therefore not shown; total federal wages are correct.</li>
+    </ul>
+
+    <h2>Limitations</h2>
+    <ul>
+      <li><strong>Descriptions</strong> in the side panel are short plain-language summaries written for this site, not official program definitions. Specific claims (rates, contractors, locations) have been checked, but the official budget documents are authoritative.</li>
+      <li><strong>Names</strong> of Defense programs appear as printed in the budget exhibits, which sometimes truncate or capitalize them oddly.</li>
+      <li><strong>Defense account detail</strong> is reported by agencies to USAspending and is less complete than Treasury's totals. Coverage gaps are shown rather than hidden.</li>
+      <li><strong>Rounding.</strong> Amounts are rounded for display; box sizes use unrounded figures.</li>
+    </ul>
+
+    <h2>Updates</h2>
+    <p>Treasury and USAspending figures are refreshed automatically each month. Defense budget exhibits and state data are added by hand when they are published each year. The main page lists when each part of the data was last built.</p>
+
+    <h2>Contact</h2>
+    <p>Corrections, questions and suggestions are welcome: <span class="contact">smcgee.dev@gmail.com</span> (<a href="mailto:smcgee.dev@gmail.com">send an email</a>).</p>
+
+    <h2>License and credits</h2>
+    <ul>
+      <li><strong>Code</strong> is released under the MIT License.</li>
+      <li><strong>Federal data</strong> from Treasury, USAspending.gov and the Department of Defense is in the public domain.</li>
+      <li><strong>State figures</strong> are from the Office of the New York State Comptroller and are used with attribution.</li>
+      <li><strong>Map shapes:</strong> us-atlas, ISC License.</li>
+      <li><strong>Charts:</strong> D3 and TopoJSON, ISC License.</li>
+      <li><strong>Typefaces:</strong> Public Sans and Merriweather, SIL Open Font License.</li>
+    </ul>
+    <p class="meta-line">Federal Budget Explorer is an independent project and is not affiliated with or endorsed by any government agency.</p>
+  </main>
+</div>
+</body>
+</html>

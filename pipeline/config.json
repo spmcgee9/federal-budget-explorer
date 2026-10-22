@@ -1,0 +1,41 @@
+{
+  "_comment": "Rules used by build_budget.py. Names are matched against Monthly Treasury Statement line descriptions (trailing colons removed). Edit here if Treasury renames a line in a future year.",
+  "intragovernmental": {
+    "_comment": "Payments from one federal account to another. Both sides are removed from 'spending to the public' so money is not counted twice (e.g. HHS pays the Medicare trust funds, which then pay benefits). They still count toward official net outlays and are shown in the reconciliation.",
+    "ancestor_names": [
+      "Intrabudgetary Transactions",
+      "Interest Received by Trust Funds",
+      "Employer Share, Employee Retirement"
+    ],
+    "item_names": [
+      "Payments to Health Care Trust Funds",
+      "Payment to Military Retirement Fund",
+      "Payment to Department of Defense Medicare-Eligible Retiree Health Care Fund",
+      "Payment to Civil Service Retirement and Disability Fund",
+      "Payments to Social Security Trust Funds",
+      "Payment to Railroad Retirement Account",
+      "Special Issues (Cash Basis)"
+    ]
+  },
+  "renames": {
+    "Special Issues (Cash Basis)": "Interest paid to federal trust funds (special issues)",
+    "Public Issues (Accrual Basis)": "Interest paid to the public (marketable debt)",
+    "Department of Defense--Military Programs": "Department of Defense (Military)",
+    "Other Defense Civil Programs": "Defense Civil Programs (Military Retirement)",
+    "Undistributed Offsetting Receipts": "Undistributed Offsetting Receipts"
+  },
+  "pivot": {
+    "_comment": "Re-nest an agency so the second level becomes the first. DoD is published as Title > Branch; we show Branch > Title.",
+    "Department of Defense--Military Programs": {
+      "Department of the Army": "Army",
+      "Department of the Navy": "Navy & Marine Corps",
+      "Department of the Air Force": "Air Force & Space Force",
+      "Defense Agencies": "Defense-wide Agencies"
+    }
+  },
+  "path_renames": {
+    "_comment": "Rename a line only when it sits under a given parent: 'Parent \u203a Line'.",
+    "Individual Income Taxes \u203a Withheld": "Withheld from paychecks",
+    "Individual Income Taxes \u203a Other": "Estimated & final payments (not withheld)"
+  }
+}

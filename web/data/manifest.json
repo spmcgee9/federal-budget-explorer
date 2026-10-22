@@ -1,0 +1,14 @@
+{
+  "years": [
+    {
+      "fy": 2026,
+      "budget": true,
+      "outlays": 7395799983313,
+      "receipts": 5403326758961
+    },
+    {
+      "fy": 2024,
+      "states": true
+    }
+  ]
+}

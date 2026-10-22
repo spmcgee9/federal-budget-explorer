@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Regenerable caches (the update script re-downloads these)
+raw/fy*/
+raw/dod/*.tmp
+
+# Kept in git: raw/dod/*_display.xlsx and raw/states/*.xlsx (hand-downloaded inputs) and
+# raw/dod/outlays_*.json (last good USAspending download, used if the API is down)

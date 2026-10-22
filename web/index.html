@@ -1,0 +1,88 @@
+<!doctype html>
+<title>Federal Budget Explorer</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700;900&family=Public+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="styles.css">
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1>Federal Budget Explorer</h1>
+      <p class="sub" id="asof">Actual receipts and outlays, from the Treasury's year-end statement.</p>
+    </div>
+    <div class="toplinks"><a href="about.html">About &amp; methods</a></div>
+    <label class="year" for="fy"><span id="fyLabel">Fiscal year</span> <select id="fy"></select></label>
+  </header>
+
+  <section class="ledger" aria-label="Year summary">
+    <div><span class="label" id="l1">Revenue (net receipts)</span><span class="big num in" id="sumR">—</span><span class="small" id="sumR2"></span></div>
+    <div><span class="label" id="l2">Spending (net outlays)</span><span class="big num out" id="sumO">—</span><span class="small" id="sumO2"></span></div>
+    <div><span class="label" id="l3">Deficit</span><span class="big num out" id="sumD">—</span><span class="small" id="sumD2"></span></div>
+  </section>
+
+  <div class="search">
+    <label for="q" class="sr">Search</label>
+    <input id="q" type="search" placeholder="Search programs, agencies, taxes, states… (try F35, Medicaid, Virginia class)" autocomplete="off" spellcheck="false" aria-controls="results">
+    <div id="results" class="results" role="listbox" hidden></div>
+  </div>
+
+  <div class="controls">
+    <div class="tabs" role="tablist" aria-label="View">
+      <button role="tab" id="tab-spending" aria-selected="true">Spending</button>
+      <button role="tab" id="tab-revenue" aria-selected="false">Revenue</button>
+      <button role="tab" id="tab-states" aria-selected="false">By state</button>
+    </div>
+    <div class="seg-wrap" id="groupWrap">Group by
+      <div class="seg" role="group" aria-label="Group spending by">
+        <button id="g-agency" aria-pressed="true">Agency</button>
+        <button id="g-function" aria-pressed="false">Purpose</button>
+      </div>
+    </div>
+    <div class="optrow" id="stateOpts" hidden>
+      <div class="seg" role="group" aria-label="What to show">
+        <button id="m-balance" aria-pressed="true">Net balance</button>
+        <button id="m-received" aria-pressed="false">Received</button>
+        <button id="m-paid" aria-pressed="false">Paid</button>
+      </div>
+      <div class="seg" role="group" aria-label="Per person or total">
+        <button id="b-capita" aria-pressed="true">Per person</button>
+        <button id="b-total" aria-pressed="false">Total</button>
+      </div>
+      <div class="seg" role="group" aria-label="Deficit treatment">
+        <button id="d-raw" aria-pressed="true">As reported</button>
+        <button id="d-adj" aria-pressed="false" title="Scale spending down so the national total equals taxes, as if the budget were balanced">Deficit-adjusted</button>
+      </div>
+    </div>
+  </div>
+
+  <nav class="crumbs" id="crumbs" aria-label="Drill-down path"></nav>
+
+  <div class="main">
+    <div class="map" id="map" role="group" aria-label="Chart"></div>
+    <aside class="panel" id="panel" aria-live="polite"></aside>
+  </div>
+
+  <footer class="notes">
+    <h3>How to read this</h3>
+    <p>Red is money going out of the Treasury and green is money coming in. Darker shades mean more money. On the state map, red states receive more in federal spending than they pay in federal taxes, green states pay more than they receive, and beige is about even.</p>
+    <p>On the spending and revenue charts, box sizes show money paid out to the public (or gross collections) before offsetting receipts and refunds. The panel shows how each item nets to the official figure.</p>
+    <p><strong>Offsetting receipts</strong> are money the government collects but books as negative spending rather than revenue, such as Medicare premiums and foreign-military-sales payments. <strong>Intragovernmental transfers</strong> are payments between federal accounts, such as general-fund payments into the Medicare trust funds. Both sides are left out of the boxes so the same dollar is not counted twice, but every total still ties to Treasury's published number.</p>
+    <p>The Defense Department is published by appropriation title, then by service. Here it is regrouped by service first. "Purpose" groups spending by budget function, which Treasury publishes only one level deep.</p>
+    <p><strong>State figures</strong> lag the budget figures by two years because the analysis takes that long to assemble. They cover the 50 states and D.C. and exclude spending that cannot be tied to a state, chiefly interest on the debt. Because the government runs a deficit, most states receive more than they pay. The deficit-adjusted view scales spending down so the national totals match, which shows which states are net contributors once that borrowing is set aside.</p>
+    <h3>Sources</h3>
+    <ul id="srcList"></ul>
+    <h3>Data updated</h3>
+    <ul id="updated"><li>Loading…</li></ul>
+    <p>Full details on sources, methods and limitations are on the <a href="about.html">About &amp; methods</a> page. Corrections and suggestions: <span class="contact">smcgee.dev@gmail.com</span> (<a href="mailto:smcgee.dev@gmail.com">email</a>).</p>
+    <p class="meta-line">An independent project, not affiliated with any government agency. Federal data is public domain; state figures © Office of the New York State Comptroller, used with attribution. Code under the MIT License.</p>
+  </footer>
+</div>
+<div class="tip" id="tip" hidden></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
+<script src="app.js"></script>
